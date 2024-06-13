@@ -48,6 +48,7 @@ body{
   padding: 13px 20px;
   outline: none;
   font-size: 1.5rem;
+  cursor: pointer;
   font-weight: bold;
   text-transform: uppercase;
   background-color: #ffdad6;
@@ -83,7 +84,7 @@ body{
 }
 .side-img{
   width: 340px;
-  
+  z-index: 999999;
   /* border: 2px solid red; */
 }
 

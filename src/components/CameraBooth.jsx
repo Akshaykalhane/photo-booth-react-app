@@ -2,6 +2,7 @@ import React, { useRef, useState,useEffect } from 'react'
 import '../App.css';
 import Webcam from 'react-webcam';
 import Button from './Button';
+import Notification from './Notification';
 
 function CameraBooth() {
     const imageRef=useRef(null)
@@ -43,31 +44,33 @@ function CameraBooth() {
         checkBrowserWebCamera();
       }, [])
 
+      const handleRetake=()=>{
+        setCaptureImage(null)
+      }
+
   return (
     <>
         <div className="control-buttons">
-            
-            <div className="button">
+            <Button title="Capture" action={handleCapture} />
+            {/* <div className="button">
                 <button onClick={handleCapture}>Capture</button>
                 <div className="divider"></div>
-            </div>
-            <div className="button">
+            </div> */}
+            <Button title="retake" action={handleRetake} />
+            {/* <div className="button">
                 <button disabled={captureImage ? false : true} onClick={()=>setCaptureImage(null)}>retake</button>
                 <div className="divider"> </div>
-            </div>
-            <div className="button">
+            </div> */}
+            <Button title="download" action={handleDownload} />
+            {/* <div className="button">
                 <button disabled={captureImage ? false : true} onClick={()=>handleDownload()}>download</button>
                 <div className="divider"> </div>
-            </div>
+            </div> */}
             <div className="button">
                 <button>post</button>
                 <div className=" divider "></div>
             </div>
-            {success && 
-            <div className='show-notification'> 
-            <p>{message}</p>
-            <img src='./images/success.png' className='success-img' />
-             </div>}
+            {success && <Notification message={message} />}
         </div>
         <div className="image-frame">
             <div className="web-cam-container">

@@ -1,8 +1,12 @@
 import React from 'react'
+import '../App.css';
 
-function Button(props) {
+function Button({title,action}) {
   return (<>
-    {props.children}
+    <div className="button">
+                <button onClick={action}>{title}</button>
+                <div className="divider"></div>
+            </div>
   </>
   )
 }
