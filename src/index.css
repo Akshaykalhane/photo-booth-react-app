@@ -1,0 +1,18 @@
+/* const videoElement = webcamRef.current.video;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+
+    canvas.width = videoElement.videoWidth;
+    canvas.height = videoElement.videoHeight;
+
+    // Draw the webcam feed onto the canvas
+    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+    // Load the frame image and draw it onto the canvas
+    const frameImage = new Image();
+    frameImage.onload = function() {
+      context.drawImage(frameImage, 0, 0, canvas.width, canvas.height);
+      const imageSrc = canvas.toDataURL('image/png');
+      setCapturedImage(imageSrc);
+    };
+    frameImage.src = frameImageSrc; */
