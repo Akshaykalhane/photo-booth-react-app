@@ -2,6 +2,7 @@ import React from 'react'
 import '../App.css';
 
 function Button({title,action}) {
+
   return (<>
     <div className="button">
                 <button onClick={action}>{title}</button>

@@ -128,7 +128,7 @@ body{
   justify-content: center;
   align-items: center;
   padding: 10px;
-  /* overflow: hidden; */
+  overflow: hidden;
   /* background-color: red; */
   /* border: 2px solid red; */
 }

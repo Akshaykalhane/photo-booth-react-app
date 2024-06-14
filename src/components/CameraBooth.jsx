@@ -8,19 +8,25 @@ function CameraBooth() {
     const imageRef = useRef(null)
     const canvasRef=useRef(null)
     const [captureImage, setCaptureImage] = useState(null);
+    const [currentImage,setCurrentImage]=useState(null);
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState('')
 
     const handleCapture = () => {
-        // const imageSrc = imageRef.current.getScreenshot();
+        const currentImg = imageRef.current.getScreenshot();
+        setCurrentImage(currentImg);
+        console.log(currentImg)
         // setCaptureImage(imageSrc);
+
         // setSuccess(true);
         // setMessage('Image Captured')
         const webcamWindow = imageRef.current.video;
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
-        canvas.width=webcamWindow.videoWidth;
-        canvas.height=webcamWindow.videoHeight;
+
+        canvas.width=webcamWindow.videoWidth-60;
+        canvas.height=webcamWindow.videoWidth;
+        console.log(canvas.width,canvas.height);
         //draw image
         context.drawImage(webcamWindow,0,0,canvas.width,canvas.height)
         //canvas working
@@ -28,7 +34,7 @@ function CameraBooth() {
         frameImage.src='./images/frame.png';
         
         frameImage.onload=()=>{
-            context.drawImage(frameImage,0,0,canvas.width,canvas.height)
+            context.drawImage(frameImage,5,5,canvas.width,canvas.height)
             const imageSrc= canvas.toDataURL('image/png');
             
             console.log('image capture')
@@ -51,7 +57,7 @@ function CameraBooth() {
             image.click();
             document.body.removeChild(image)
             setSuccess(true)
-            setCaptureImage(null)
+            // setCaptureImage(null)
             setMessage('Image Downloaded')
         }
     }
@@ -67,22 +73,23 @@ function CameraBooth() {
 
     const handleRetake = () => {
         setCaptureImage(null)
+        setCurrentImage(null);
     }
 
     return (
         <>
             <div className="control-buttons">
-                <Button title="Capture" action={handleCapture} />
+                <Button title="capture" action={handleCapture}  />
                 {/* <div className="button">
                 <button onClick={handleCapture}>Capture</button>
                 <div className="divider"></div>
             </div> */}
-                <Button title="retake" action={handleRetake} />
+                <Button title="retake" action={handleRetake}  />
                 {/* <div className="button">
                 <button disabled={captureImage ? false : true} onClick={()=>setCaptureImage(null)}>retake</button>
                 <div className="divider"> </div>
             </div> */}
-                <Button title="download" action={handleDownload} />
+                <Button title="download" action={handleDownload}  />
                 {/* <div className="button">
                 <button disabled={captureImage ? false : true} onClick={()=>handleDownload()}>download</button>
                 <div className="divider"> </div>
@@ -99,7 +106,7 @@ function CameraBooth() {
                 </div>
                 <div className="web-cam-container">
                     <div className="web-cam-outer">
-                        {captureImage ? <img src={captureImage} className='webcam' /> : <Webcam
+                        {currentImage ? <img src={currentImage} className='webcam' /> : <Webcam
                             audio={false}
                             mirrored={false}
                             ref={imageRef}
