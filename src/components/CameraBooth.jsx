@@ -4,6 +4,7 @@ import Webcam from 'react-webcam';
 import Button from './Button';
 import Notification from './Notification';
 import html2canvas from 'html2canvas';
+import drawImage from './handleCapture';
 
 function CameraBooth() {
     const imageRef = useRef(null)
@@ -13,16 +14,11 @@ function CameraBooth() {
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState('')
 
-    const handleCapture =async () => {
+    const handleCapture = () => {
         const currentImg = imageRef.current.getScreenshot();
         setCurrentImage(currentImg);
         console.log(currentImg)
-        const canvas = await html2canvas(canvasRef.current,{
-            useCORS:true,
-            scale:1,
-        })
-        const imageSrc = canvas.toDataURL('image/png')
-        setCaptureImage(imageSrc)
+        setCaptureImage(currentImg);
         // setCaptureImage(imageSrc);
 
         // setSuccess(true);
@@ -55,18 +51,21 @@ function CameraBooth() {
         }, 4000)
         console.log(canvasRef.current)
     }, [success])
-    const handleDownload = () => {
-        if (captureImage) {
-            const image = document.createElement('a')
-            image.href = captureImage;
-            image.download = 'image.jpeg';
-            document.body.appendChild(image)
-            image.click();
-            document.body.removeChild(image)
-            setSuccess(true)
-            // setCaptureImage(null)
-            setMessage('Image Downloaded')
+
+    
+
+    const handleDownload =  () => {
+
+        // const canvasDraw=async()=>{
+        //     // setCaptureImage(imageSrc)
+        // }
+        console.log('caprure')
+        if(captureImage){
+            console.log('click download')
+            drawImage(canvasRef)
         }
+        
+        
     }
 
     useEffect(() => {
@@ -109,16 +108,33 @@ function CameraBooth() {
             </div>
             <div className="image-frame">
                     <div className="home-button">
-                <button><i class="fa fa-home"></i> home</button>
+                <button> <i class="fa fa-home"></i> home</button>
                 </div>
                 <div className="web-cam-container" ref={canvasRef}>
                     <div className="web-cam-outer">
-                        {currentImage ? <img src={currentImage} className='webcam' /> : <Webcam
+                        {/* {currentImage ? <img src={currentImage} className='webcam' /> : <Webcam
                             audio={false}
                             mirrored={false}
                             ref={imageRef}
-                            screenshotFormat='image/jpeg'
-                            className='webcam' />}
+                            forceScreenshotSourceSize={true}
+                            screenshotFormat='image/png'
+                            screenshotQuality={3}
+                            className='webcam' />} */}
+                            
+                            
+                            <Webcam
+                            audio={false}
+                            mirrored={false}
+                            ref={imageRef}
+                            forceScreenshotSourceSize={true}
+                            screenshotFormat='image/png'
+                            screenshotQuality={1}
+                            videoConstraints={{frameRate:30}}
+                            className='webcam'
+                            />
+                            {captureImage && (
+                                <img src={currentImage} className='capture-img'/>
+                            )}
                     </div>
                     <img src="./images/frame.png" className='overlay-img' alt="" />
                {/* <canvas ref={canvasRef} style={{display:'none'}}></canvas> */}
